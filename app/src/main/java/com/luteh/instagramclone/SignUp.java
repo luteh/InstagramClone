@@ -6,17 +6,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.List;
+
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnSave;
+    private Button btnSave, btnGetAllData;
     private EditText etName, etPunchSpeed, etPunchPower, etKickSpeed, etKickPower;
+    private TextView tvKickBoxerData;
+    private String allKickBoxers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +36,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         etKickSpeed = findViewById(R.id.etKickSpeed);
         etKickPower = findViewById(R.id.etKickPower);
 
+        tvKickBoxerData = findViewById(R.id.tvKickBoxerData);
+        tvKickBoxerData.setOnClickListener(SignUp.this);
+
         btnSave = findViewById(R.id.btnSave);
+        btnGetAllData = findViewById(R.id.btnGetAllData);
         btnSave.setOnClickListener(SignUp.this);
+        btnGetAllData.setOnClickListener(SignUp.this);
     }
 
     /*public void helloWorldTapped(View view) {
@@ -52,7 +64,50 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnSave:
                 saveKickBoxerDatatoServer();
                 break;
+            case R.id.btnGetAllData:
+                getAllDataFromServer();
+                break;
+            case R.id.tvKickBoxerData:
+                getOneDataFromServer();
+                break;
         }
+    }
+
+    public void getOneDataFromServer() {
+        try {
+            ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("KickBoxer");
+            parseQuery.getInBackground("Id2ogNoFPZ", new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    if (object != null && e == null) {
+                        tvKickBoxerData.setText("Name : " + object.getString("name") +
+                                " - Punch Speed : " + object.getString("punch_speed"));
+                    } else {
+                        FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+        }
+    }
+
+    public void getAllDataFromServer() {
+        allKickBoxers = "";
+        ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+        queryAll.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.size() > 0) {
+                        for (ParseObject kickBoxer : objects) {
+                            allKickBoxers += kickBoxer.get("name") + "\n";
+                        }
+                        FancyToast.makeText(SignUp.this, allKickBoxers, FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    }
+                }
+            }
+        });
     }
 
     public void saveKickBoxerDatatoServer() {
@@ -73,7 +128,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     }
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
         }
     }
