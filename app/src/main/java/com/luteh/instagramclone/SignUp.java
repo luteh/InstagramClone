@@ -1,5 +1,6 @@
 package com.luteh.instagramclone;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.luteh.instagramclone.base.BaseActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -18,9 +20,9 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
 
-public class SignUp extends AppCompatActivity implements View.OnClickListener {
+public class SignUp extends BaseActivity implements View.OnClickListener {
 
-    private Button btnSave, btnGetAllData;
+    private Button btnSave, btnGetAllData, btnTransition;
     private EditText etName, etPunchSpeed, etPunchPower, etKickSpeed, etKickPower;
     private TextView tvKickBoxerData;
     private String allKickBoxers;
@@ -41,8 +43,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         btnSave = findViewById(R.id.btnSave);
         btnGetAllData = findViewById(R.id.btnGetAllData);
+        btnTransition = findViewById(R.id.btnTransition);
         btnSave.setOnClickListener(SignUp.this);
         btnGetAllData.setOnClickListener(SignUp.this);
+        btnTransition.setOnClickListener(SignUp.this);
     }
 
     /*public void helloWorldTapped(View view) {
@@ -67,11 +71,19 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnGetAllData:
                 getAllDataFromServer();
                 break;
+            case R.id.btnTransition:
+                startActivity(SignUpLoginActivity.class);
+                break;
             case R.id.tvKickBoxerData:
                 getOneDataFromServer();
                 break;
         }
     }
+
+    /*ublic void intentActivity() {
+        Intent intent = new Intent(SignUp.this, SignUpLoginActivity.class);
+        startActivity(intent);
+    }*/
 
     public void getOneDataFromServer() {
         try {
