@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">InstagramClone</string>
+
+    <string name="label_signup">Sign Up</string>
+    <string name="label_login">Log In</string>
+    <string name="label_home">Home</string>
+
+    <string name="input_email">Please enter an email</string>
+    <string name="input_username">Please enter an username</string>
+    <string name="input_password">Please enter a password</string>
+    <string name="text_signup">Sign Up</string>
+    <string name="text_login">Log In</string>
 </resources>
