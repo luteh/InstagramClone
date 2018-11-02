@@ -10,4 +10,7 @@
     <string name="input_password">Please enter a password</string>
     <string name="text_signup">Sign Up</string>
     <string name="text_login">Log In</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

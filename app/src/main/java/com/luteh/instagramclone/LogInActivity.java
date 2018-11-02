@@ -1,12 +1,12 @@
 package com.luteh.instagramclone;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.luteh.instagramclone.base.BaseActivity;
+import com.luteh.instagramclone.common.Common;
+import com.luteh.instagramclone.common.base.BaseActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -43,19 +43,19 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     }
 
     public void userLogIn() {
-        showProgressBar();
+        Common.showProgressBar(context);
         ParseUser.logInInBackground(etUserNameLogIn.getText().toString(),
                 etPasswordLogIn.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if (user != null && e == null) {
-                            showSuccessMessage("Log In Success");
+                            Common.showSuccessMessage(context,"Log In Success");
                             startActivity(HomeActivity.class);
                             finizh();
                         } else {
-                            showErrorMessage(e.getMessage());
+                            Common.showErrorMessage(context,e.getMessage());
                         }
-                        dismissProgressBar();
+                        Common.dismissProgressBar();
                     }
                 });
     }

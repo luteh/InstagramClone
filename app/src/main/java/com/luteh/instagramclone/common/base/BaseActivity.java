@@ -1,7 +1,5 @@
-package com.luteh.instagramclone.base;
+package com.luteh.instagramclone.common.base;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.luteh.instagramclone.R;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -23,16 +18,19 @@ import com.shashank.sony.fancytoastlib.FancyToast;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
+    /*private AlertDialog.Builder builder;
+    private AlertDialog dialog;*/
+
+    protected Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.context = this;
 
     }
 
-    public final void showProgressBar() {
+    /*public final void showProgressBar() {
         builder = new AlertDialog.Builder(this);
         builder.setCancelable(false); // if you want user to wait for some process to finish,
         builder.setView(R.layout.layout_loading_dialog);
@@ -44,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public final void dismissProgressBar() {
         dialog.dismiss();
-    }
+    }*/
 
     public final void startActivity(Class clazz) {
         Intent intent = new Intent(this, clazz);
@@ -55,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
-    public final void showSuccessMessage(String message) {
+    /*public final void showSuccessMessage(String message) {
         FancyToast.makeText(this, message, 0, FancyToast.SUCCESS, false).show();
     }
 
@@ -65,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public final void showErrorMessage(String message) {
         FancyToast.makeText(this, message, 1, FancyToast.ERROR, false).show();
-    }
+    }*/
 
     //Hide keyboard if root layout tapped
     public final void rootLayoutTapped(View view) {

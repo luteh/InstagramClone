@@ -1,28 +1,15 @@
 package com.luteh.instagramclone;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.luteh.instagramclone.base.BaseActivity;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.Parse;
+import com.luteh.instagramclone.common.Common;
+import com.luteh.instagramclone.common.base.BaseActivity;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-import com.shashank.sony.fancytoastlib.FancyToast;
-
-import java.util.List;
 
 public class SignUp extends BaseActivity implements View.OnClickListener {
 
@@ -77,10 +64,10 @@ public class SignUp extends BaseActivity implements View.OnClickListener {
         if (etEmailSignUp.getText().toString().equals("") ||
                 etUserNameSignUp.getText().toString().equals("") ||
                 etPasswordSignUp.getText().toString().equals("")) {
-            showInfoMessage("Email, Username, Password is required");
+            Common.showInfoMessage(context, "Email, Username, Password is required");
         } else {
             try {
-                showProgressBar();
+                Common.showProgressBar(context);
                 ParseUser user = new ParseUser();
                 user.setEmail(etEmailSignUp.getText().toString());
                 user.setUsername(etUserNameSignUp.getText().toString());
@@ -89,21 +76,21 @@ public class SignUp extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            showSuccessMessage("Sign Up Success");
+                            Common.showSuccessMessage(context, "Sign Up Success");
                             etEmailSignUp.getText().clear();
                             etUserNameSignUp.getText().clear();
                             etPasswordSignUp.getText().clear();
 
                         } else {
-                            showErrorMessage(e.getMessage());
+                            Common.showErrorMessage(context, e.getMessage());
                         }
-                        dismissProgressBar();
+                        Common.dismissProgressBar();
                     }
                 });
 
             } catch (Exception e) {
-                showErrorMessage(e.getMessage());
-                dismissProgressBar();
+                Common.showErrorMessage(context, e.getMessage());
+                Common.dismissProgressBar();
             }
         }
 

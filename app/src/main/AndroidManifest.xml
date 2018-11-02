@@ -24,7 +24,8 @@
             android:label="@string/label_login" />
         <activity
             android:name=".HomeActivity"
-            android:label="@string/label_home" />
+            android:label="@string/label_home"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
