@@ -11,6 +11,14 @@
     <string name="text_signup">Sign Up</string>
     <string name="text_login">Log In</string>
 
+    <!--Profile Fragment-->
+    <string name="input_profile_name">Please enter a profile name</string>
+    <string name="input_your_bio">Please enter your bio</string>
+    <string name="input_your_profession">Please enter your profession</string>
+    <string name="input_your_hobbies">Please enter your hobbies</string>
+    <string name="input_your_sport">Please enter your favorite sport</string>
+    <string name="btn_update">Update info</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

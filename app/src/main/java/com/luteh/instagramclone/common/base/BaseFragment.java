@@ -1,5 +1,6 @@
 package com.luteh.instagramclone.common.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,8 +29,8 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        baseActivity = (BaseActivity) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        baseActivity = (BaseActivity) activity;
     }
 }
