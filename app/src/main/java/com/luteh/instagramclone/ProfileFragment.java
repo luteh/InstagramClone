@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.luteh.instagramclone.common.Common;
-import com.luteh.instagramclone.common.base.BaseFragment;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -23,10 +22,12 @@ import com.parse.SaveCallback;
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private EditText etProfileName, etProfileBio, etProfileProfession, etProfileHobbies, etProfileSport;
-    private Button btnUpdate;
+    private Button btnUpdateProfile;
     private String profileName, profileBio, profileProfession, profileHobbies, profileSport;
     private String keyProfileName, keyProfileBio, keyProfileProfession, keyProfileHobbies, keyProfileSport;
     private final String TAG = "Profile Fragment";
+
+    private ParseUser parseUser;
 
 
     public ProfileFragment() {
@@ -40,6 +41,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        parseUser = ParseUser.getCurrentUser();
+
         etProfileName = view.findViewById(R.id.etProfileName);
         etProfileBio = view.findViewById(R.id.etProfileBio);
         etProfileProfession = view.findViewById(R.id.etProfileProfession);
@@ -52,8 +55,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         keyProfileHobbies = getResources().getString(R.string.key_profile_hobbies);
         keyProfileSport = getResources().getString(R.string.key_profile_sport);
 
-        btnUpdate = view.findViewById(R.id.btnProfileUpdate);
-        btnUpdate.setOnClickListener(this);
+        btnUpdateProfile = view.findViewById(R.id.btnProfileUpdate);
+        btnUpdateProfile.setOnClickListener(this);
+
+        getUserProfile();
 
         return view;
     }
@@ -69,37 +74,70 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void updateProfile() {
-        getFormText();
         try {
-            ParseUser user = ParseUser.getCurrentUser();
-            user.put(keyProfileName, profileName);
-            user.put(keyProfileBio, profileBio);
-            user.put(keyProfileProfession, profileProfession);
-            user.put(keyProfileHobbies, profileHobbies);
-            user.put(keyProfileSport, profileSport);
+            if (isFieldsEmpty()) {
+                Common.showInfoMessage(getContext(), "Fill out all fields!");
+            } else {
+                Common.showProgressBar(getContext());
 
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Common.showSuccessMessage(getContext(), "Update profile success");
-                    } else {
-                        Common.showErrorMessage(getContext(), "Update profile failed");
-                        Log.e(TAG, e.getMessage());
+                parseUser.put(keyProfileName, profileName);
+                parseUser.put(keyProfileBio, profileBio);
+                parseUser.put(keyProfileProfession, profileProfession);
+                parseUser.put(keyProfileHobbies, profileHobbies);
+                parseUser.put(keyProfileSport, profileSport);
+
+                parseUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Common.dismissProgressBar();
+                            Common.showSuccessMessage(getContext(), "Update profile success");
+                        } else {
+                            Common.dismissProgressBar();
+                            Common.showErrorMessage(getContext(), "Update profile failed");
+                            Log.e(TAG, e.getMessage());
+                        }
                     }
-                }
-            });
+                });
+            }
         } catch (Exception e) {
+            Common.dismissProgressBar();
             Common.showErrorMessage(getContext(), "Something wrong");
             Log.e(TAG, e.getMessage());
         }
     }
 
-    public void getFormText() {
+    public boolean isFieldsEmpty() {
         profileName = etProfileName.getText().toString();
         profileBio = etProfileBio.getText().toString();
         profileProfession = etProfileProfession.getText().toString();
         profileHobbies = etProfileHobbies.getText().toString();
         profileSport = etProfileSport.getText().toString();
+
+        if (profileName.equals("") || profileBio.equals("") || profileProfession.equals("") || profileHobbies.equals("") || profileSport.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void getUserProfile() {
+        try {
+            Common.showProgressBar(getContext());
+
+            if (parseUser.get(keyProfileName) != null) {
+                etProfileName.setText(parseUser.get(keyProfileName).toString());
+                etProfileBio.setText(parseUser.get(keyProfileBio).toString());
+                etProfileProfession.setText(parseUser.get(keyProfileProfession).toString());
+                etProfileHobbies.setText(parseUser.get(keyProfileHobbies).toString());
+                etProfileSport.setText(parseUser.get(keyProfileSport).toString());
+
+                Common.dismissProgressBar();
+            } else Common.dismissProgressBar();
+        } catch (Exception e) {
+            Common.dismissProgressBar();
+            Common.showErrorMessage(getContext(), "Something wrong!");
+            Log.e(TAG, e.getMessage());
+        }
     }
 }

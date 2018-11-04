@@ -21,11 +21,12 @@ public class Common {
 
         dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.show();
+        if (!dialog.isShowing()) dialog.show();
     }
 
     public static void dismissProgressBar() {
-        dialog.dismiss();
+        if (dialog.isShowing()) dialog.dismiss();
+
     }
 
 
