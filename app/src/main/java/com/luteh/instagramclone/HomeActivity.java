@@ -29,8 +29,8 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager,false);
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         //super.onBackPressed();
-    }
+    }*/
 }

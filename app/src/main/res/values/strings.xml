@@ -18,6 +18,11 @@
     <string name="input_your_hobbies">Please enter your hobbies</string>
     <string name="input_your_sport">Please enter your favorite sport</string>
     <string name="btn_update">Update info</string>
+    <string name="key_profile_name">profile_name</string>
+    <string name="key_profile_bio">profile_bio</string>
+    <string name="key_profile_profession">profile_profession</string>
+    <string name="key_profile_hobbies">profile_hobbies</string>
+    <string name="key_profile_sport">profile_sport</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
