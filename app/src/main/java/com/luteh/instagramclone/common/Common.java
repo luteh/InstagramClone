@@ -14,6 +14,8 @@ public class Common {
     private static AlertDialog.Builder builder;
     private static AlertDialog dialog;
 
+    public static final String KEY_USERNAME = "username";
+
     public static void showProgressBar(Context context) {
         builder = new AlertDialog.Builder(context);
         builder.setCancelable(false); // if you want user to wait for some process to finish,
