@@ -114,11 +114,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         profileHobbies = etProfileHobbies.getText().toString();
         profileSport = etProfileSport.getText().toString();
 
-        if (profileName.equals("") || profileBio.equals("") || profileProfession.equals("") || profileHobbies.equals("") || profileSport.equals("")) {
-            return true;
-        } else {
-            return false;
-        }
+        return (profileName.equals("") ||
+                profileBio.equals("") ||
+                profileProfession.equals("") ||
+                profileHobbies.equals("") ||
+                profileSport.equals(""));
     }
 
     public void getUserProfile() {
