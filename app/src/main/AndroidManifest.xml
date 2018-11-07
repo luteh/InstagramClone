@@ -29,6 +29,9 @@
             android:name=".HomeActivity"
             android:label="@string/label_home"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UsersPostActivity"
+            android:label="@string/label_users_post" />
     </application>
 
 </manifest>

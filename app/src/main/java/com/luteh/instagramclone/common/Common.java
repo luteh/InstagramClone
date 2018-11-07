@@ -15,6 +15,9 @@ public class Common {
     private static AlertDialog dialog;
 
     public static final String KEY_USERNAME = "username";
+    public static final String KEY_CREATEDAT = "createdAt";
+    public static final String KEY_IMAGE_DES = "image_des";
+    public static final String KEY_PICTURE = "picture";
 
     public static void showProgressBar(Context context) {
         builder = new AlertDialog.Builder(context);

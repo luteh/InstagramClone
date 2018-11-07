@@ -1,6 +1,7 @@
 package com.luteh.instagramclone;
 
 
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -25,7 +27,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UsersFragment extends Fragment {
+public class UsersFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ListView lvUsers;
     private ArrayAdapter<String> usersAdapter;
     private ArrayList<String> usersList;
@@ -44,6 +46,8 @@ public class UsersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
         lvUsers = view.findViewById(R.id.lvUsers);
+        lvUsers.setOnItemClickListener(this);
+
         usersList = new ArrayList<String>();
         usersAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, usersList);
 
@@ -85,4 +89,10 @@ public class UsersFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getContext(), UsersPostActivity.class);
+        intent.putExtra(Common.KEY_USERNAME, usersList.get(position));
+        startActivity(intent);
+    }
 }
