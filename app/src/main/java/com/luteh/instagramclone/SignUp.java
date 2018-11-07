@@ -31,6 +31,7 @@ public class SignUp extends BaseActivity implements View.OnClickListener {
         btnSignUp.setOnClickListener(this);
 
         if (ParseUser.getCurrentUser() != null) {
+            finizh();
             startActivity(HomeActivity.class);
         }
 
@@ -53,6 +54,7 @@ public class SignUp extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnLogIn:
                 startActivity(LogInActivity.class);
+                finizh();
                 break;
             case R.id.btnSignUp:
                 userSignUp();

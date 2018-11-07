@@ -109,7 +109,11 @@ public class SharePictureFragment extends Fragment implements View.OnClickListen
                     Common.dismissProgressBar();
                     e.printStackTrace();
                 }
+            } else {
+                Common.showInfoMessage(getContext(), "Fill out a description");
             }
+        }else{
+            Common.showInfoMessage(getContext(),"Select an image first");
         }
 
     }
@@ -152,22 +156,26 @@ public class SharePictureFragment extends Fragment implements View.OnClickListen
 
                 //Do something with your captured image.
                 try {
-                    Uri selectedImage = data.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getActivity().getContentResolver()
-                            .query(selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
-
-                    btnSelectImage.setImageBitmap(receivedImageBitmap);
+                    btnSelectImage.setImageBitmap(convertImageToBitmap(data));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    public Bitmap convertImageToBitmap(Intent data) {
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().getContentResolver()
+                .query(selectedImage, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
+
+        return receivedImageBitmap;
     }
 
 

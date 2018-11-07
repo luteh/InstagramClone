@@ -28,7 +28,6 @@ public class Common {
 
     public static void dismissProgressBar() {
         if (dialog.isShowing()) dialog.dismiss();
-
     }
 
 

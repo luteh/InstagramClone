@@ -11,7 +11,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class LogInActivity extends BaseActivity implements View.OnClickListener{
+public class LogInActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText etUserNameLogIn, etPasswordLogIn;
     private Button btnSignUp, btnLogIn;
@@ -37,6 +37,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 userLogIn();
                 break;
             case R.id.btnSignUp:
+                startActivity(SignUp.class);
                 finizh();
                 break;
         }
@@ -49,11 +50,11 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if (user != null && e == null) {
-                            Common.showSuccessMessage(context,"Log In Success");
+                            Common.showSuccessMessage(context, "Log In Success");
                             startActivity(HomeActivity.class);
                             finizh();
                         } else {
-                            Common.showErrorMessage(context,e.getMessage());
+                            Common.showErrorMessage(context, e.getMessage());
                         }
                         Common.dismissProgressBar();
                     }
