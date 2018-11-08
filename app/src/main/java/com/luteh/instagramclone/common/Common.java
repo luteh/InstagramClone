@@ -19,6 +19,11 @@ public class Common {
     public static final String KEY_IMAGE_DES = "image_des";
     public static final String KEY_PICTURE = "picture";
 
+    public static final String KEY_PROFILE_BIO = "profile_bio";
+    public static final String KEY_PROFILE_PROFESSION = "profile_profession";
+    public static final String KEY_PROFILE_HOBBIES = "profile_hobbies";
+    public static final String KEY_PROFILE_SPORT = "profile_sport";
+
     public static void showProgressBar(Context context) {
         builder = new AlertDialog.Builder(context);
         builder.setCancelable(false); // if you want user to wait for some process to finish,

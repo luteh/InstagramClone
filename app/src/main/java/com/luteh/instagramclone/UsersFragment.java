@@ -2,6 +2,7 @@ package com.luteh.instagramclone;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,19 +16,24 @@ import android.widget.ListView;
 
 import com.luteh.instagramclone.common.Common;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UsersFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class UsersFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private ListView lvUsers;
     private ArrayAdapter<String> usersAdapter;
     private ArrayList<String> usersList;
@@ -47,6 +53,7 @@ public class UsersFragment extends Fragment implements AdapterView.OnItemClickLi
 
         lvUsers = view.findViewById(R.id.lvUsers);
         lvUsers.setOnItemClickListener(this);
+        lvUsers.setOnItemLongClickListener(this);
 
         usersList = new ArrayList<String>();
         usersAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, usersList);
@@ -94,5 +101,43 @@ public class UsersFragment extends Fragment implements AdapterView.OnItemClickLi
         Intent intent = new Intent(getContext(), UsersPostActivity.class);
         intent.putExtra(Common.KEY_USERNAME, usersList.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo(Common.KEY_USERNAME, usersList.get(position));
+        parseQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if (object != null && e == null) {
+//                    Common.showSuccessMessage(getContext(), object.get(Common.KEY_PROFILE_BIO) + "");
+                    showUsersInfoDialog(object);
+                }
+            }
+        });
+        return true;
+    }
+
+    public void showUsersInfoDialog(ParseUser object) {
+        final PrettyDialog prettyDialog = new PrettyDialog(getContext());
+        prettyDialog
+                .setTitle(object.get(Common.KEY_USERNAME)+"'s Info")
+                .setMessage(object.get(Common.KEY_PROFILE_BIO) + "\n"
+                        + object.get(Common.KEY_PROFILE_PROFESSION) + "\n"
+                        + object.get(Common.KEY_PROFILE_HOBBIES) + "\n"
+                        + object.get(Common.KEY_PROFILE_SPORT))
+                .addButton(
+                        "OK",
+                        R.color.pdlg_color_white,
+                        R.color.pdlg_color_green,
+                        new PrettyDialogCallback() {
+                            @Override
+                            public void onClick() {
+                                prettyDialog.dismiss();
+                            }
+                        }
+                )
+                .show();
     }
 }
